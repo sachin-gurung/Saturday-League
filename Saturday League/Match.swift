@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+struct Match {
+    var homeTeam: String
+    var homeScore: Int
+    var awayTeam: String
+    var awayScore: Int
+}
