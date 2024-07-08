@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyDyWx1gcC8hjaAV3_FJXaCOMarJbisnmlY</string>
+	<string>AIzaSyABU1Lg8KhKHX58vQQ9Cxo_pD5izyTqjco</string>
 	<key>GCM_SENDER_ID</key>
-	<string>960666523114</string>
+	<string>718890428299</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.sachin.Saturday-League</string>
 	<key>PROJECT_ID</key>
-	<string>saturday-league</string>
+	<string>saturdayleaguefirebase</string>
 	<key>STORAGE_BUCKET</key>
-	<string>saturday-league.appspot.com</string>
+	<string>saturdayleaguefirebase.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:960666523114:ios:442ee184b9d6509f528e93</string>
+	<string>1:718890428299:ios:eeb947c2285cc910c4f18e</string>
 </dict>
 </plist>
