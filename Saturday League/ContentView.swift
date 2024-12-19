@@ -8,13 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var teams = [
-        Team(name: "Nepal Seattle FC Pink", played: 0, wins: 0, draws: 0, losses: 0, goalDifference: 0, points: 0),
-        Team(name: "Nepal Seattle FC Yellow", played: 0, wins: 0, draws: 0, losses: 0, goalDifference: 0, points: 0),
-        Team(name: "Nepal JBLM FC", played: 0, wins: 0, draws: 0, losses: 0, goalDifference: 0, points: 0),
-        Team(name: "Seatown FC", played: 0, wins: 0, draws: 0, losses: 0, goalDifference: 0, points: 0),
-        Team(name: "Aayo Gorkhali", played: 0, wins: 0, draws: 0, losses: 0, goalDifference: 0, points: 0),
-    ]
+    @State private var teams: [Team] = [] // Start with an empty array
+    @State private var newTeamName: String = "" // Input field for new team names
+    
+//    @State private var teams = [
+//        Team(name: "Seattle FC Pink", played: 0, wins: 0, draws: 0, losses: 0, goalDifference: 0, points: 0),
+//        Team(name: "Seattle FC Yellow", played: 0, wins: 0, draws: 0, losses: 0, goalDifference: 0, points: 0),
+//        Team(name: "Seattle FC White", played: 0, wins: 0, draws: 0, losses: 0, goalDifference: 0, points: 0),
+//        Team(name: "Nepal JBLM FC", played: 0, wins: 0, draws: 0, losses: 0, goalDifference: 0, points: 0),
+//        Team(name: "Aayo Gorkhali", played: 0, wins: 0, draws: 0, losses: 0, goalDifference: 0, points: 0),
+//    ]
     
     @State private var homeTeam = ""
     @State private var homeScore = ""
@@ -24,6 +27,22 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             VStack {
+                // Input field and button for adding new teams
+                HStack {
+                    TextField("New Team Name", text: $newTeamName)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding()
+                    Button(action: {
+                        addTeam()
+                    }) {
+                            Text("Add Team")
+                                .padding()
+                                .background(Color.green)
+                                .foregroundColor(Color.white)
+                                .cornerRadius(10)
+                        }
+                    }
+                
                 HStack {
                     TextField("Home Team", text: $homeTeam)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -88,10 +107,21 @@ struct ContentView: View {
                         }
                     }
                 }
-                .navigationTitle("Saturday League")
+                .navigationTitle("Tournament Standings")
             }
             .padding()
         }
+    }
+    
+    func addTeam(){
+        let trimmedName = newTeamName.trimmingCharacters(in: .whitespaces)
+        guard !trimmedName.isEmpty else {
+            return
+        }
+        
+        let newTeam = Team(name: trimmedName, played: 0, wins: 0, draws: 0, losses: 0, goalDifference: 0, points: 0)
+        teams.append(newTeam)
+        newTeamName = "" // Clear the input field
     }
     
     func updateStandings(){
