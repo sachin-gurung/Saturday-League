@@ -11,14 +11,6 @@ struct ContentView: View {
     @State private var teams: [Team] = [] // Start with an empty array
     @State private var newTeamName: String = "" // Input field for new team names
     
-//    @State private var teams = [
-//        Team(name: "Seattle FC Pink", played: 0, wins: 0, draws: 0, losses: 0, goalDifference: 0, points: 0),
-//        Team(name: "Seattle FC Yellow", played: 0, wins: 0, draws: 0, losses: 0, goalDifference: 0, points: 0),
-//        Team(name: "Seattle FC White", played: 0, wins: 0, draws: 0, losses: 0, goalDifference: 0, points: 0),
-//        Team(name: "Nepal JBLM FC", played: 0, wins: 0, draws: 0, losses: 0, goalDifference: 0, points: 0),
-//        Team(name: "Aayo Gorkhali", played: 0, wins: 0, draws: 0, losses: 0, goalDifference: 0, points: 0),
-//    ]
-    
     @State private var homeTeam = ""
     @State private var homeScore = ""
     @State private var awayTeam = ""
@@ -67,6 +59,12 @@ struct ContentView: View {
                 }
                 .padding()
                 
+                Text("TEAM STANDINGS")
+                    .font(.headline)
+                    .padding(.bottom, 5)
+                    .foregroundColor(Color.black)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                
                 List {
                     HStack {
                         Text("TEAM")
@@ -83,7 +81,7 @@ struct ContentView: View {
                         Text("+/-")
                             .frame(width: 50, alignment: .center)
                         Text("PTS")
-                            .frame(width: 30, alignment: .center)
+                            .frame(width: 40, alignment: .center)
                     }
                     .font(.headline)
                     
@@ -106,11 +104,26 @@ struct ContentView: View {
                                 .frame(width: 30, alignment: .center)
                         }
                     }
+                    .onDelete(perform: deleteTeam) // Enable swipe-to-delete
                 }
-                .navigationTitle("Tournament Standings")
+
+                .toolbar{
+                    ToolbarItem(placement: .principal){
+                        Text ("Welcome to the Soccer League!")
+                            .padding(.top, 40)
+                            .font(.system(size: 24, weight: .bold, design: .rounded))
+                            .foregroundColor(Color.blue)
+                            .shadow(color: Color.black.opacity(0.5), radius: 4, x: 0, y: 2)
+                            .multilineTextAlignment(.center)
+                    }
+                }
             }
             .padding()
         }
+    }
+    
+    func deleteTeam(at offsets: IndexSet){
+        teams.remove(atOffsets: offsets)
     }
     
     func addTeam(){
