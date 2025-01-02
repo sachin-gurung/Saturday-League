@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import FirebaseFirestore
+import FirebaseCrashlytics
 
 struct ContentView: View {
     @State private var teams: [Team] = [] // Start with an empty array
@@ -27,13 +29,13 @@ struct ContentView: View {
                     Button(action: {
                         addTeam()
                     }) {
-                            Text("Add Team")
-                                .padding()
-                                .background(Color.green)
-                                .foregroundColor(Color.white)
-                                .cornerRadius(10)
-                        }
+                        Text("Add Team")
+                            .padding()
+                            .background(Color.green)
+                            .foregroundColor(Color.white)
+                            .cornerRadius(10)
                     }
+                }
                 
                 HStack {
                     TextField("Home Team", text: $homeTeam)
@@ -106,7 +108,7 @@ struct ContentView: View {
                     }
                     .onDelete(perform: deleteTeam) // Enable swipe-to-delete
                 }
-
+                
                 .toolbar{
                     ToolbarItem(placement: .principal){
                         Text ("Welcome to the Soccer League!")
@@ -121,6 +123,8 @@ struct ContentView: View {
             .padding()
         }
     }
+    
+    
     
     func deleteTeam(at offsets: IndexSet){
         teams.remove(atOffsets: offsets)
@@ -183,7 +187,17 @@ struct ContentView: View {
             self.awayTeam = ""
             self.awayScore = ""
         }
+        
+        func setupFirestore() {
+            let db = Firestore.firestore()
+            print("Firestore connected \(db)")
+        }
+        
+        Crashlytics.crashlytics().log("Crashlytics is working!")
+        print("Crashlytics initialized.")
     }
 }
+
+
 
 
