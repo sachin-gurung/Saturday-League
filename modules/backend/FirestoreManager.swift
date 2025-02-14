@@ -24,48 +24,62 @@ final class FirestoreManager {
             "goalDifference": 0,
             "points": 0
         ]
-        
+
+        print("🟡 Attempting to add team:", teamData) // Debugging print
+
         db.collection("teams").addDocument(data: teamData) { error in
             if let error = error {
+                print("❌ Error adding team: \(error.localizedDescription)")
                 completion(.failure(error))
             } else {
+                print("✅ Team successfully added to Firestore")
                 completion(.success(()))
             }
         }
     }
     
-    // MARK: - Add a New Match
-    func addMatch(homeTeam: String, homeScore: Int, awayTeam: String, awayScore: Int) {
+    func addMatch(homeTeam: String, homeScore: Int, awayTeam: String, awayScore: Int, datePlayed: Date, completion: @escaping (Result<Void, Error>) -> Void) {
         let matchData: [String: Any] = [
             "homeTeam": homeTeam,
             "homeScore": homeScore,
             "awayTeam": awayTeam,
             "awayScore": awayScore,
-            "datePlayed": Date().formatted()
+            "datePlayed": Timestamp(date: datePlayed)
         ]
-        
-        db.collection("matches").addDocument(data: matchData)
-    }
-    
-    // MARK: - Fetch Matches
-    func fetchMatches(completion: @escaping (Result<[Match], Error>) -> Void) {
-        db.collection("matches").getDocuments(source: .default) { snapshot, error in
+
+        print("🟡 Attempting to add match:", matchData) // Debugging print
+
+        db.collection("matches").addDocument(data: matchData) { error in
             if let error = error {
+                print("❌ Error adding match: \(error.localizedDescription)")
                 completion(.failure(error))
-                return
+            } else {
+                print("✅ Match successfully added to Firestore")
+                completion(.success(()))
             }
-            
-            guard let documents = snapshot?.documents else {
-                completion(.success([])) // Return empty array if no documents exist
-                return
-            }
-
-            let matches: [Match] = documents.compactMap { document in
-                return Match(id: document.documentID, data: document.data())
-            }
-
-            completion(.success(matches))
         }
+    }
+
+    // MARK: - Listen for Real-Time Match Updates
+    func fetchMatches(completion: @escaping (Result<[Match], Error>) -> Void) {
+        db.collection("matches")
+            .order(by: "datePlayed", descending: true) // Sort by most recent
+            .addSnapshotListener { snapshot, error in
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+
+                var matches: [Match] = []
+                for document in snapshot?.documents ?? [] {
+                    let data = document.data()
+                    if let match = Match(id: document.documentID, data: data) {
+                        matches.append(match)
+                    }
+                }
+
+                completion(.success(matches))
+            }
     }
     
     // MARK: - Fetch Teams from Firestore
@@ -120,34 +134,16 @@ final class FirestoreManager {
         }
     }
     
-    //    // MARK: - Update Team Score
-    //    func updateTeamScore(teamId: String, wins: Int, losses: Int, draws: Int, completion: @escaping (Result<Void, Error>) -> Void) {
-    //        let totalGames = wins + losses + draws
-    //        let points = (wins * 3) + (draws * 1)
-    //
-    //        db.collection("teams").document(teamId).updateData([
-    //            "played": totalGames,
-    //            "wins": wins,
-    //            "losses": losses,
-    //            "draws": draws,
-    //            "points": points
-    //        ]) { error in
-    //            if let error = error {
-    //                completion(.failure(error))
-    //            } else {
-    //                completion(.success(()))
-    //            }
-    //        }
-    //    }
-    
-    //    // MARK: - Delete a Team
-    //    func deleteTeam(teamId: String, completion: @escaping (Result<Void, Error>) -> Void) {
-    //        db.collection("teams").document(teamId).delete { error in
-    //            if let error = error {
-    //                completion(.failure(error))
-    //            } else {
-    //                completion(.success(()))
-    //            }
-    //        }
-    //    }
+    // MARK: - Delete a Match
+    func deleteMatch(matchId: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        db.collection("matches").document(matchId).delete { error in
+            if let error = error {
+                print("❌ Error deleting match: \(error.localizedDescription)")
+                completion(.failure(error))
+            } else {
+                print("✅ Match successfully deleted")
+                completion(.success(()))
+            }
+        }
+    }
 }

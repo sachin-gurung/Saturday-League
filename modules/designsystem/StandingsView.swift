@@ -63,7 +63,7 @@ struct StandingsView: View {
             }
             .padding()
             
-            Text("Welcome to SAPL!")
+            Text("TEAM STANDINGS")
                 .font(.headline)
                 .padding(.leading, 16)
                 .foregroundColor(Color.black)
@@ -71,7 +71,7 @@ struct StandingsView: View {
             
             // 🏆 **Header Row for Standings Table**
             HStack {
-                Text("TEAM NAME").frame(width: 100, alignment: .leading).bold()
+                Text("Team Name").frame(width: 100, alignment: .leading).bold()
                 Spacer()
                 Text("PL").frame(width: 30, alignment: .center).bold()
                 Text("W").frame(width: 30, alignment: .center).bold()
@@ -109,7 +109,12 @@ struct StandingsView: View {
             switch result {
             case .success(let fetchedTeams):
                 DispatchQueue.main.async {
-                    self.teams = fetchedTeams.sorted { $0.points > $1.points }
+                    self.teams = fetchedTeams.sorted {
+                        if $0.points == $1.points {
+                            return $0.goalDifference > $1.goalDifference // Sort by +/- if points are the same
+                        }
+                        return $0.points > $1.points // Otherwise, sort by points
+                    }
                 }
             case .failure(let error):
                 print("Error fetching teams: \(error)")
@@ -117,31 +122,36 @@ struct StandingsView: View {
         }
     }
     
-    // Add a new team
     private func addTeam() {
         let trimmedName = newTeamName.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmedName.isEmpty else { return }
-        
-        // Convert input name to lowercase for comparison
-        let lowercasedName = trimmedName.lowercased()
-        
-        // Check if a team with the same name (case insensitive) already exists
-        if teams.contains(where: { $0.name.lowercased() == lowercasedName }) {
-            print("Error: A team with this name already exists.")
+        guard !trimmedName.isEmpty else {
+            print("❌ Error: Team name cannot be empty")
             return
         }
-        
-        // Proceed with adding the team to Firestore
-        FirestoreManager.shared.addTeam(name: trimmedName) { _ in fetchTeams() }
+
+        // Convert input name to lowercase for comparison
+        let lowercasedName = trimmedName.lowercased()
+
+        // Check if a team with the same name (case insensitive) already exists
+        if teams.contains(where: { $0.name.lowercased() == lowercasedName }) {
+            print("❌ Error: A team with this name already exists.")
+            return
+        }
+
+        print("🟡 Calling FirestoreManager.addTeam() with name: \(trimmedName)")
+
+        FirestoreManager.shared.addTeam(name: trimmedName) { result in
+            switch result {
+            case .success:
+                print("✅ Successfully added team: \(trimmedName)")
+                fetchTeams() // Refresh list
+            case .failure(let error):
+                print("❌ Error adding team: \(error.localizedDescription)")
+            }
+        }
+
         newTeamName = "" // Clear input field after adding
     }
-    
-    //    // Add a new team
-    //    private func addTeam() {
-    //        guard !newTeamName.isEmpty else { return }
-    //        FirestoreManager.shared.addTeam(name: newTeamName) { _ in fetchTeams() }
-    //        newTeamName = ""
-    //    }
     
     // Submit a match result
     private func submitScore() {
@@ -150,23 +160,23 @@ struct StandingsView: View {
             print("Error: Invalid input")
             return
         }
-        
+
         let trimmedHomeTeam = homeTeam.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         let trimmedAwayTeam = awayTeam.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-        
+
         // Find home and away teams case-insensitively
         guard let homeTeamData = teams.first(where: { $0.name.lowercased() == trimmedHomeTeam }),
               let awayTeamData = teams.first(where: { $0.name.lowercased() == trimmedAwayTeam }) else {
             print("Error: One or both teams not found")
             return
         }
-        
+
         var updatedHomeTeam = homeTeamData
         var updatedAwayTeam = awayTeamData
-        
+
         updatedHomeTeam.played += 1
         updatedAwayTeam.played += 1
-        
+
         if homeScoreInt > awayScoreInt {
             updatedHomeTeam.wins += 1
             updatedHomeTeam.points += 3
@@ -181,10 +191,28 @@ struct StandingsView: View {
             updatedHomeTeam.points += 1
             updatedAwayTeam.points += 1
         }
-        
+
         updatedHomeTeam.goalDifference += (homeScoreInt - awayScoreInt)
         updatedAwayTeam.goalDifference += (awayScoreInt - homeScoreInt)
-        
+
+        // Save match result in Firestore with date
+        let matchDate = Date()
+        FirestoreManager.shared.addMatch(
+            homeTeam: homeTeamData.name,
+            homeScore: homeScoreInt,
+            awayTeam: awayTeamData.name,
+            awayScore: awayScoreInt,
+            datePlayed: matchDate
+        ) { result in
+            switch result {
+            case .success:
+                print("Match successfully saved!")
+                NotificationCenter.default.post(name: NSNotification.Name("MatchUpdated"), object: nil) // ✅ Notify MatchesView
+            case .failure(let error):
+                print("Error saving match: \(error)")
+            }
+        }
+
         // Update Firestore for both teams
         FirestoreManager.shared.updateTeamScore(
             teamId: updatedHomeTeam.id,
@@ -194,7 +222,7 @@ struct StandingsView: View {
             goalDifference: updatedHomeTeam.goalDifference,
             points: updatedHomeTeam.points
         ) { _ in }
-        
+
         FirestoreManager.shared.updateTeamScore(
             teamId: updatedAwayTeam.id,
             wins: updatedAwayTeam.wins,
@@ -203,9 +231,9 @@ struct StandingsView: View {
             goalDifference: updatedAwayTeam.goalDifference,
             points: updatedAwayTeam.points
         ) { _ in }
-        
+
         fetchTeams() // Refresh standings after update
-        
+
         // Clear input fields
         homeTeam = ""
         homeScore = ""
