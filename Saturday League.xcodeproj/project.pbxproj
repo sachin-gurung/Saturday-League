@@ -13,39 +13,35 @@
 		86BE63F32D26FCC8006F42DF /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 86BE63F22D26FCC8006F42DF /* FirebaseCore */; };
 		86BE63F52D26FCC8006F42DF /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 86BE63F42D26FCC8006F42DF /* FirebaseCrashlytics */; };
 		86BE63F72D26FCC8006F42DF /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 86BE63F62D26FCC8006F42DF /* FirebaseDatabase */; };
-		86BE63F92D26FCC8006F42DF /* FirebaseDynamicLinks in Frameworks */ = {isa = PBXBuildFile; productRef = 86BE63F82D26FCC8006F42DF /* FirebaseDynamicLinks */; };
 		86BE63FB2D26FCC8006F42DF /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 86BE63FA2D26FCC8006F42DF /* FirebaseFirestore */; };
 		86BE63FD2D26FCC8006F42DF /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 86BE63FC2D26FCC8006F42DF /* FirebaseFunctions */; };
-		86BE63FF2D26FCC8006F42DF /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 86BE63FE2D26FCC8006F42DF /* FirebaseMessaging */; };
 		86BE64012D26FCC8006F42DF /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 86BE64002D26FCC8006F42DF /* FirebaseStorage */; };
 		86FBA8B02C2159DD009954FA /* Saturday_LeagueApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FBA8AF2C2159DD009954FA /* Saturday_LeagueApp.swift */; };
-		86FBA8B22C2159DD009954FA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FBA8B12C2159DD009954FA /* ContentView.swift */; };
 		86FBA8B42C2159DE009954FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 86FBA8B32C2159DE009954FA /* Assets.xcassets */; };
 		86FBA8B72C2159DE009954FA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 86FBA8B62C2159DE009954FA /* Preview Assets.xcassets */; };
-		86FBA8BE2C215B1D009954FA /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FBA8BD2C215B1D009954FA /* Team.swift */; };
-		86FBA8C02C21605C009954FA /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FBA8BF2C21605C009954FA /* Match.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		8685CB822D265B9400D4D37F /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		86B9D6EF2D5E782D0057DB05 /* Saturday League.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Saturday League.entitlements"; sourceTree = "<group>"; };
 		86FBA8AC2C2159DD009954FA /* Saturday League.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Saturday League.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		86FBA8AF2C2159DD009954FA /* Saturday_LeagueApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Saturday_LeagueApp.swift; sourceTree = "<group>"; };
-		86FBA8B12C2159DD009954FA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		86FBA8B32C2159DE009954FA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		86FBA8B62C2159DE009954FA /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		86FBA8BD2C215B1D009954FA /* Team.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
-		86FBA8BF2C21605C009954FA /* Match.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Match.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
 		8685CB742D21A4A000D4D37F /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Authentication/AuthenticationManager.swift,
-				Authentication/AuthenticationView.swift,
-				Authentication/RootView.swift,
-				Authentication/SettingsView.swift,
-				Authentication/SignInEmailView.swift,
+				backend/AuthenticationManager.swift,
+				backend/FirestoreManager.swift,
+				backend/Match.swift,
+				backend/Team.swift,
+				designsystem/AuthenticationView.swift,
+				designsystem/ContentView.swift,
+				designsystem/RootView.swift,
+				designsystem/SettingsView.swift,
 			);
 			target = 86FBA8AB2C2159DD009954FA /* Saturday League */;
 		};
@@ -60,7 +56,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				86BE63FF2D26FCC8006F42DF /* FirebaseMessaging in Frameworks */,
 				86BE63F72D26FCC8006F42DF /* FirebaseDatabase in Frameworks */,
 				86BE63EF2D26FCC8006F42DF /* FirebaseAnalytics in Frameworks */,
 				86BE64012D26FCC8006F42DF /* FirebaseStorage in Frameworks */,
@@ -68,7 +63,6 @@
 				86BE63FD2D26FCC8006F42DF /* FirebaseFunctions in Frameworks */,
 				86BE63F32D26FCC8006F42DF /* FirebaseCore in Frameworks */,
 				86BE63F12D26FCC8006F42DF /* FirebaseAuth in Frameworks */,
-				86BE63F92D26FCC8006F42DF /* FirebaseDynamicLinks in Frameworks */,
 				86BE63FB2D26FCC8006F42DF /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -97,13 +91,11 @@
 		86FBA8AE2C2159DD009954FA /* Saturday League */ = {
 			isa = PBXGroup;
 			children = (
+				86B9D6EF2D5E782D0057DB05 /* Saturday League.entitlements */,
 				86FBA8AF2C2159DD009954FA /* Saturday_LeagueApp.swift */,
-				86FBA8B12C2159DD009954FA /* ContentView.swift */,
 				8685CB822D265B9400D4D37F /* GoogleService-Info.plist */,
 				86FBA8B32C2159DE009954FA /* Assets.xcassets */,
 				86FBA8B52C2159DE009954FA /* Preview Content */,
-				86FBA8BD2C215B1D009954FA /* Team.swift */,
-				86FBA8BF2C21605C009954FA /* Match.swift */,
 			);
 			path = "Saturday League";
 			sourceTree = "<group>";
@@ -145,10 +137,8 @@
 				86BE63F22D26FCC8006F42DF /* FirebaseCore */,
 				86BE63F42D26FCC8006F42DF /* FirebaseCrashlytics */,
 				86BE63F62D26FCC8006F42DF /* FirebaseDatabase */,
-				86BE63F82D26FCC8006F42DF /* FirebaseDynamicLinks */,
 				86BE63FA2D26FCC8006F42DF /* FirebaseFirestore */,
 				86BE63FC2D26FCC8006F42DF /* FirebaseFunctions */,
-				86BE63FE2D26FCC8006F42DF /* FirebaseMessaging */,
 				86BE64002D26FCC8006F42DF /* FirebaseStorage */,
 			);
 			productName = "Saturday League";
@@ -210,10 +200,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				86FBA8BE2C215B1D009954FA /* Team.swift in Sources */,
-				86FBA8B22C2159DD009954FA /* ContentView.swift in Sources */,
 				86FBA8B02C2159DD009954FA /* Saturday_LeagueApp.swift in Sources */,
-				86FBA8C02C21605C009954FA /* Match.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,6 +331,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Saturday League/Saturday League.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Saturday League/Preview Content\"";
@@ -373,6 +361,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Saturday League/Saturday League.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Saturday League/Preview Content\"";
@@ -465,11 +454,6 @@
 			package = 86BE63ED2D26FCC8006F42DF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseDatabase;
 		};
-		86BE63F82D26FCC8006F42DF /* FirebaseDynamicLinks */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 86BE63ED2D26FCC8006F42DF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseDynamicLinks;
-		};
 		86BE63FA2D26FCC8006F42DF /* FirebaseFirestore */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 86BE63ED2D26FCC8006F42DF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
@@ -479,11 +463,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 86BE63ED2D26FCC8006F42DF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFunctions;
-		};
-		86BE63FE2D26FCC8006F42DF /* FirebaseMessaging */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 86BE63ED2D26FCC8006F42DF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseMessaging;
 		};
 		86BE64002D26FCC8006F42DF /* FirebaseStorage */ = {
 			isa = XCSwiftPackageProductDependency;
