@@ -40,8 +40,10 @@
 				backend/Team.swift,
 				designsystem/AuthenticationView.swift,
 				designsystem/ContentView.swift,
+				designsystem/MatchesView.swift,
 				designsystem/RootView.swift,
 				designsystem/SettingsView.swift,
+				designsystem/StandingsView.swift,
 			);
 			target = 86FBA8AB2C2159DD009954FA /* Saturday League */;
 		};
