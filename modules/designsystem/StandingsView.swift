@@ -101,6 +101,10 @@ struct StandingsView: View {
             }
             .onAppear { fetchTeams() } // Load teams
         }
+        .onTapGesture {
+            // Hide keyboard when tapping outside
+            hideKeyboard()
+        }
     }
     
     // Fetch teams from Firestore
@@ -254,6 +258,10 @@ struct StandingsView: View {
                 }
             }
         }
+    }
+    
+    private func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
 

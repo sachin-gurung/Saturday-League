@@ -29,7 +29,7 @@ struct ContentView: View {
                     }
                     .tag(1)
             }
-            .navigationTitle(selectedTab == 0 ? "WELCOME TO SAPL!" : "Match Scores")
+            .navigationTitle(selectedTab == 0 ? "THURSDAY SOCCER!" : "Match Scores")
         }
     }
 }
